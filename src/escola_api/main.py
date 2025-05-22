@@ -13,7 +13,7 @@ def calculadora(numero1: int, numero2: int):
     soma = numero1 + numero2
     return {"soma": soma}
 
-@app.get("processar-cliente")
+@app.get("/processar-cliente")
 def processar_dados_cliente(nome: str, idade: int, sobrenome: str):
     #nome_completo => snake_case
     # NomeCompleto => PascalCase

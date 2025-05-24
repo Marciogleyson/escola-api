@@ -113,9 +113,9 @@ def editar_curso(id: int, form: CursoEditar):
 ## Fazer o CRUD completo
 ## - GET /api/alunos retornará a lista de alunos com status code 200
 ## CRiar class Aluno(com as propriedades:
-    - id, nome, cpf, sobrenome e data nascimento
+##    - id, nome, cpf, sobrenome e data nascimento
 ## - GET /api/alunos/{id} retornará o aluno encontrado com aquele id com status code 200
-    retorna 404(quando não encontrado)
+##    retorna 404(quando não encontrado)
 ## - POST /apí/alunos permitir cadastrar
 
 

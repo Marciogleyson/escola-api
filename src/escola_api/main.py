@@ -4,6 +4,7 @@ from fastapi import HTTPException
 import uvicorn
 from fastapi import FastAPI
 from pygments.lexer import default
+from dataclasses import dataclass, field
 
 app = FastAPI()
 
@@ -58,6 +59,7 @@ class CursoEditar:
     nome: str = field()
     sigla: str = field()
 
+
 cursos = [
     #instanciado um objeto da classe Curso
     Curso(id = 1, nome = "Python Web", sigla = "PY1"),
@@ -108,15 +110,44 @@ def editar_curso(id: int, form: CursoEditar):
             return curso
     raise HTTPException(status_code=404, detail=f"Curso não encontrado com id: {id}")
 
-## Fazer o exercício de Aluno com os seguintes campos:
-## - nome, sobrenome, cpf e data de nascimento
-## Fazer o CRUD completo
-## - GET /api/alunos retornará a lista de alunos com status code 200
-## CRiar class Aluno(com as propriedades:
-##    - id, nome, cpf, sobrenome e data nascimento
-## - GET /api/alunos/{id} retornará o aluno encontrado com aquele id com status code 200
-##    retorna 404(quando não encontrado)
-## - POST /apí/alunos permitir cadastrar
+
+## Exercicio
+
+@dataclass
+class Aluno:
+    id: int = field()
+    nome: str = field()
+    sobrenome: str = field()
+    cpf: str = field()
+    data_nascimento: str = field()
+
+alunos = [
+    Aluno(id = 1, nome = "Marcio ", sobrenome = "Ramos", cpf = "123.456.789-00", data_nascimento = "14/04/1980")
+]
+
+
+@app.get("/api/aluno", status_code= 200 )
+def lista_todos_alunos():
+    return alunos
+
+
+@dataclass
+class AlunoCadastro:
+    nome: str = field()
+    sobrenome: str = field()
+    cpf: str = field()
+    data_nascimento: str = field()
+
+alunos = [
+    Aluno(id=1, nome="Marcio ", sobrenome="Ramos", cpf="123.456.789-00", data_nascimento="14/04/1980")
+]
+
+@app.get("/api/aluno/{id}")
+def listar_aluno_id(id: int):
+    for aluno in alunos:
+        if aluno.id == id:
+          return aluno
+    raise HTTPException(status_code=404, detail=f" Aluno não encontrado com id: {id}")
 
 
 

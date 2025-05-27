@@ -1,12 +1,29 @@
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, date
+
+from dataclasses_json import dataclass_json, LetterCase
 from fastapi import HTTPException
 import uvicorn
 from fastapi import FastAPI
+from pydantic import BaseModel, Field
 from pygments.lexer import default
 from dataclasses import dataclass, field
 
+from starlette.middleware.cors import CORSMiddleware
+
 app = FastAPI()
+
+origins = [
+    "http://localhost:4200"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins = origins,
+    allow_credentials=True,
+    allow_headers=["*"],
+    allow_methods=["*"],
+)
 
 @app.get("/")
 def index():
@@ -113,16 +130,15 @@ def editar_curso(id: int, form: CursoEditar):
 
 ## Exercicio
 
-@dataclass
-class Aluno:
-    id: int = field()
-    nome: str = field()
-    sobrenome: str = field()
-    cpf: str = field()
-    data_nascimento: str = field()
+class Aluno(BaseModel):
+    id: int = Field()
+    nome: str = Field()
+    sobrenome: str = Field()
+    cpf: str = Field()
+    data_nascimento: datetime = Field(alias="dataNascimento")
 
 alunos = [
-    Aluno(id = 1, nome = "Marcio ", sobrenome = "Ramos", cpf = "123.456.789-00", data_nascimento = "14/04/1980")
+    Aluno(id = 1, nome = "Marcio ", sobrenome = "Ramos", cpf = "123.456.789-00", dataNascimento =date(1990, 5,7))
 ]
 
 
@@ -131,32 +147,32 @@ def lista_todos_alunos():
     return alunos
 
 
-@dataclass
-class AlunoCadastro:
-    nome: str = field()
-    sobrenome: str = field()
-    cpf: str = field()
-    data_nascimento: str = field()
 
-@dataclass
-class AlunoEditar:
-    nome: str = field()
-    sobrenome: str = field()
-    cpf: str = field()
-    data_nascimento: str = field()
+class AlunoCadastro(BaseModel):
+    nome: str = Field()
+    sobrenome: str = Field()
+    cpf: str = Field()
+    data_nascimento: datetime = Field(alias="dataNascimento")
 
-@dataclass
-class AlunoApagar:
-    id: int = field()
-    nome: str = field()
-    sobrenome: str = field()
-    cpf: str = field()
-    data_nascimento: str = field()
+
+class AlunoEditar(BaseModel):
+    nome: str = Field()
+    sobrenome: str = Field()
+    cpf: str = Field()
+    data_nascimento: datetime = Field(alias="dataNascimento")
+
+
+class AlunoApagar(BaseModel):
+    id: int = Field()
+    nome: str = Field()
+    sobrenome: str = Field()
+    cpf: str = Field()
+    data_nascimento: datetime = Field(alias="dataNascimento")
 
 alunos = [
-    Aluno(id=1, nome="Marcio", sobrenome="Ramos", cpf="123.456.789-00", data_nascimento="14/04/1980"),
-    Aluno(id=2, nome="Kauã", sobrenome="Ramos", cpf="123.888.789-23", data_nascimento="04/04/2008"),
-    Aluno(id=3, nome="Ana ", sobrenome="Ramos", cpf="047.456.740-33", data_nascimento="28/04/1947"),
+    Aluno(id=1, nome="Marcio", sobrenome="Ramos", cpf="123.456.789-00", dataNascimento=date(1990,  5, 25)),
+    Aluno(id=2, nome="Kauã", sobrenome="Ramos", cpf="123.888.789-23", dataNascimento=date(1990,  5, 25)),
+    Aluno(id=3, nome="Ana ", sobrenome="Ramos", cpf="047.456.740-33", dataNascimento=date(1990,  5, 25)),
 ]
 
 @app.get("/api/alunos/{id}")
@@ -177,7 +193,7 @@ def cadastrar_aluno(form: AlunoCadastro):
     return aluno
 
 @app.put("/api/alunos/{id}")
-def editar_aluno(form: AlunoEditar):
+def editar_aluno(id: int, form: AlunoEditar):
     for aluno in alunos:
         if aluno.id == id:
             aluno.nome = form.nome
@@ -187,7 +203,7 @@ def editar_aluno(form: AlunoEditar):
             return aluno
     raise HTTPException(status_code=404, detail=f"Aluno não encontrado")
 
-app.delete("/api/alunos/{id}")
+@app.delete("/api/alunos/{id}")
 def apagar_aluno(form: AlunoApagar):
     for aluno in alunos:
         if aluno.id == id:

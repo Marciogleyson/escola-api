@@ -132,3 +132,9 @@ fabric.properties
 # Markdown Navigator plugin
 .idea/**/markdown-navigator.xml
 .idea/**/markdown-navigator/
+
+.env
+
+**/__pycache__/**
+
+env/**

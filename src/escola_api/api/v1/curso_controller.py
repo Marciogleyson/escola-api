@@ -1,4 +1,6 @@
 from fastapi import HTTPException
+
+from escola_api.database.banco_dados import SessionLocal
 from src.escola_api.schemas.curso_schemas import Curso, CursoEditar, CursoCadastro
 from src.escola_api.app import router
 
@@ -7,6 +9,15 @@ cursos = [
     Curso(id=1, nome="Python Web", sigla="PY1"),
     Curso(id=2, nome="Git e GitHub", sigla="GT")
 ]
+
+#Função de dependência para obter uma sessão do banco de dados
+def get_db():
+    db = SessionLocal() # cria uma nova sessão no banco de dados
+    try:
+        yield db # Retorna a sessão de forma que o FastAPI possa utilizá-la nas rotas
+    finally:
+        db.close() # Garante que a sessão será fechada após o uso
+
 
 
 @router.get("/api/cursos")

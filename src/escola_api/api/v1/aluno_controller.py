@@ -1,5 +1,5 @@
-from escola_api.schemas.aluno_schemas import AlunoCadastro, Aluno, AlunoEditar
-from escola_api.app import router
+from src.escola_api.schemas.aluno_schemas import AlunoCadastro, Aluno, AlunoEditar
+from src.escola_api.app import router
 from datetime import date
 from fastapi import HTTPException
 

@@ -1,7 +1,7 @@
 from fastapi import HTTPException
 
-from escola_api.app import router
-from escola_api.schemas.formacao_schemas import Formacao, FormacaoCadastro, FormacaoEditar
+from src.escola_api.app import router
+from src.escola_api.schemas.formacao_schemas import Formacao, FormacaoCadastro, FormacaoEditar
 
 formacoes = [
     # instanciando um objeto da Class Formação
@@ -37,7 +37,7 @@ def cadastrar_formacao(form: FormacaoCadastro):
     return formacao
 
 
-@router.delete("/api/cursos/{id}", status_code=204)
+@router.delete("/api/formacoes/{id}", status_code=204)
 def apagar_curso(id: int):
     for formacao in formacoes:
         if formacao.id == id:

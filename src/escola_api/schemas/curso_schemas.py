@@ -1,5 +1,5 @@
-from typing import Optional
 from pydantic import BaseModel, Field
+from typing_extensions import Optional
 
 
 class Curso(BaseModel):
@@ -15,4 +15,4 @@ class CursoCadastro(BaseModel):
 
 class CursoEditar(BaseModel):
     nome: str = Field()
-    sigla: Optional[str] = Field(default=None)
+    sigla: Optional[str] = Field(default=None)  # campo opcional

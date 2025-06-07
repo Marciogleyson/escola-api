@@ -6,13 +6,13 @@ router = APIRouter()
 app = FastAPI()
 
 origins = [
-    "http://localhost:4200"
+    "http://localhost:4200",
 ]
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["*"],  # POST, GET, PUT, DELETE, PATCH, OPTIONS, HEAD
     allow_headers=["*"]
 )

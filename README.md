@@ -1,3 +1,70 @@
+
+# 🧑‍🎓 Exercício: Implementação de um CRUD para Alunos com FastAPI
+
+Implemente uma API RESTful para gerenciar um cadastro de **alunos** utilizando o FastAPI. A API deve conter todas as operações básicas de CRUD (Create, Read, Update e Delete), com os seguintes requisitos:
+
+#### 📄 Estrutura da Entidade
+
+A entidade **Aluno** deve conter os seguintes campos:
+
+* `id`: int (gerado automaticamente)
+* `nome`: str
+* `sobrenome`: str
+* `cpf`: str
+* `data_nascimento`: str ou `datetime` (você pode escolher o tipo, mas seja consistente)
+
+Você deve utilizar `@dataclass` para definir as seguintes classes:
+
+* `Aluno`: representa o aluno completo, incluindo o campo `id`.
+* `AlunoCadastro`: usada para receber dados ao cadastrar um novo aluno (sem o campo `id`).
+* `AlunoEditar`: usada para editar os dados de um aluno existente (sem o campo `id`).
+
+---
+
+#### 📌 Requisitos da API
+
+##### ✅ `GET /api/alunos`
+
+* Deve retornar uma lista com todos os alunos cadastrados.
+* **Status de resposta**: `200 OK`
+
+##### ✅ `GET /api/alunos/{id}`
+
+* Deve retornar o aluno correspondente ao `id` informado.
+* Caso o aluno não seja encontrado, retorne um erro.
+* **Status de resposta**:
+
+  * `200 OK` se encontrado
+  * `404 Not Found` se não encontrado
+
+##### ✅ `POST /api/alunos`
+
+* Deve cadastrar um novo aluno com os dados enviados no corpo da requisição.
+* O campo `id` deve ser gerado automaticamente.
+* **Status de resposta**: `200 OK`
+
+##### ✅ `PUT /api/alunos/{id}`
+
+* Deve atualizar os dados do aluno com o `id` correspondente, usando os dados enviados no corpo da requisição.
+* Utilize um loop (`for`) para localizar o aluno.
+* Caso o aluno não seja encontrado, retorne um erro.
+* **Status de resposta**:
+
+  * `200 OK` se atualizado com sucesso
+  * `404 Not Found` se o aluno não for encontrado
+
+##### ✅ `DELETE /api/alunos/{id}`
+
+* Deve remover o aluno correspondente ao `id` informado.
+* Caso o aluno não seja encontrado, retorne um erro.
+* **Status de resposta**:
+
+  * `204 No Content` se excluído com sucesso
+  * `404 Not Found` se não encontrado
+
+
+# Outros exercícios
+
 ## Enunciado: Cálculo do Total de Venda de um Produto (Sem Validações)
 
 Implemente um endpoint HTTP usando o método **GET** que receba as informações de um produto via query params, calcule o valor total da venda e retorne o resultado em JSON, sem nenhuma validação extra e usando apenas estruturas condicionais (`if`/`else`).

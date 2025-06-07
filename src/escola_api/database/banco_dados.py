@@ -6,7 +6,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy_utils import create_database, database_exists
 
-# carregar o arquivo .env com as configurações do banco de dados
+# Carregar o arquivo .env com as configurações do banco de dados
 load_dotenv()
 
 DB_USER = os.getenv("DB_USER")
@@ -24,5 +24,3 @@ engine = create_engine(SQLALCHEMY_DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
-
-

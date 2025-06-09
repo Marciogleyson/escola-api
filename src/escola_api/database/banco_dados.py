@@ -1,7 +1,7 @@
 import os
 
 from dotenv import load_dotenv
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy_utils import create_database, database_exists
@@ -17,6 +17,7 @@ DB_NAME = os.getenv("DB_NAME", "escola-db")
 
 SQLALCHEMY_DATABASE_URL = f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
+
 if not database_exists(SQLALCHEMY_DATABASE_URL):
     create_database(SQLALCHEMY_DATABASE_URL)
 
@@ -24,3 +25,14 @@ engine = create_engine(SQLALCHEMY_DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
+
+def popular_banco_dados():
+    # Lê e executa o arquivo SQL de seed
+    sql_file = os.path.join(os.path.dirname(__file__), "db_seed.sql")
+    with open(sql_file, "r", encoding="utf-8") as f:
+        sql_commands = f.read()
+
+    with engine.connect() as conn:
+        conn.execute(text(sql_commands))
+        conn.commit()
+        print("Dados inseridos com sucesso a partir de db_seed.sql")

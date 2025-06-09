@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 
 from dotenv import load_dotenv
 from sqlalchemy import create_engine, text
@@ -27,8 +28,10 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
 def popular_banco_dados():
+    caminho_atual = Path(os.path.dirname(__file__))
+    caminho_raiz = caminho_atual.parent.parent.parent
     # Lê e executa o arquivo SQL de seed
-    sql_file = os.path.join(os.path.dirname(__file__), "db_seed.sql")
+    sql_file = camimho_raiz / "db_seed.sql"
     with open(sql_file, "r", encoding="utf-8") as f:
         sql_commands = f.read()
 

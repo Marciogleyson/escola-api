@@ -7,8 +7,9 @@ from src.escola_api.api.v1 import curso_controller
 from src.escola_api.app import app
 
 Base.metadata.create_all(bind=engine)
-Base.metadata.drop_all(bind=engine)
 popular_banco_dados()
+#Base.metadata.drop_all(bind=engine)
+
 
 app.include_router(curso_controller.router)
 app.include_router(aluno_controller.router)

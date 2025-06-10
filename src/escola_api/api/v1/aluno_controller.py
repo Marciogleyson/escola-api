@@ -2,7 +2,7 @@ from fastapi import HTTPException
 from fastapi.params import Depends
 from sqlalchemy.orm import Session
 
-from escola_api.dependencias import get_db
+from src.escola_api.dependencias import get_db
 from src.escola_api.app import router
 from src.escola_api.database.modelos import AlunoEntidade
 from src.escola_api.schemas.aluno_schemas import Aluno, AlunoEditar, AlunoCadastro

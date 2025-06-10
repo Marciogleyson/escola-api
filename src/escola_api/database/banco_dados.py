@@ -7,6 +7,8 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy_utils import create_database, database_exists
 
+
+
 # Carregar o arquivo .env com as configurações do banco de dados
 load_dotenv()
 
@@ -27,15 +29,20 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
 
+
 def popular_banco_dados():
     caminho_atual = Path(os.path.dirname(__file__))
     caminho_raiz = caminho_atual.parent.parent.parent
     # Lê e executa o arquivo SQL de seed
-    sql_file = camimho_raiz / "db_seed.sql"
+    sql_file = caminho_raiz / "db_seed.sql"
     with open(sql_file, "r", encoding="utf-8") as f:
-        sql_commands = f.read()
+        sql_commands = f.read().split(";")
 
     with engine.connect() as conn:
-        conn.execute(text(sql_commands))
-        conn.commit()
+        for sql_command in sql_commands:
+            sql_command = sql_command.replace("\n", "")
+            if not sql_command:
+                continue
+            conn.execute(text(sql_command + ";"))
+            conn.commit()
         print("Dados inseridos com sucesso a partir de db_seed.sql")

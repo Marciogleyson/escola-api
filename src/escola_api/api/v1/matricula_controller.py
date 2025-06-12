@@ -1,18 +1,29 @@
 from datetime import date
 
-from fastapi import Depends, HTTPException
+from fastapi import Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 
 from src.escola_api.database.modelos import MatriculaEntidade
 from src.escola_api.dependencias import get_db
-from src.escola_api.schemas.matricula_schemas import MatriculaEditar, MatriculaCadastro
+from src.escola_api.schemas.matricula_schemas import MatriculaEditar, MatriculaCadastro, Matricula, MatriculaAluno
 from src.escola_api.app import router
 
 
 @router.get("/api/matriculas", status_code=200, tags=["matriculas"])
-def lista_todos_matriculas(db: Session = Depends(get_db)):
-    matriculas = db.query(MatriculaEntidade).all()
-    return matriculas
+def lista_todos_matriculas(id_curso: int = Query(alias="idCurso"),db: Session = Depends(get_db)):
+    matriculas = db.query(MatriculaEntidade).filter(MatriculaEntidade.curso_id == id_curso).all()
+    return [Matricula(
+        id=matricula.id,
+        aluno_id=matricula.aluno_id,
+        aluno=MatriculaAluno(
+            id=matricula.aluno.id,
+            nome=matricula.aluno.nome,
+            sobrenome=matricula.aluno.sobrenome
+        ),
+
+        curso_id=matricula.curso_id,
+        dataMatricula=matricula.data_matricula,
+    ) for matricula in matriculas]
 
 
 

@@ -18,7 +18,7 @@ def listar_todos_alunos(filtro: str = Query(default="", alias="filtro"), db: Ses
             AlunoEntidade.nome.ilike(pesquisa),
             AlunoEntidade.sobrenome.ilike(pesquisa),
             # AlunoEntidade.cpf == filtro # buscar exatamente aquele cpf "210.202.131-22"
-            AlunoEntidade.cpf == f"{filtro}%" # buscar o cpf que começa com "210"
+            AlunoEntidade.cpf.ilike(f"{filtro}%") # buscar o cpf que começa com "210"
             # AlunoEntidade.cpf.ilike(pesquisa) # busca em qualquer part do cpf
         )
     ).all()

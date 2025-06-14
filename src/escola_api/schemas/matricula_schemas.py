@@ -5,8 +5,8 @@ from pydantic import BaseModel, Field
 
 
 class MatriculaBase(BaseModel):
-    aluno_id: int = Field()
-    curso_id: int = Field()
+    aluno_id: int = Field(alias="alunoId")
+    curso_id: int = Field(alias="cursoId")
 
 class MatriculaAluno(BaseModel):
     nome: str = Field()

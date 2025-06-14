@@ -31,7 +31,7 @@ def lista_todos_matriculas(id_curso: int = Query(alias="idCurso"),db: Session = 
 def cadastrar_matriculas(form: MatriculaCadastro, db: Session = Depends(get_db)):
     matricula = MatriculaEntidade(
         aluno_id=form.aluno_id,
-        curso_id=form.curso.id,
+        curso_id=form.curso_id,
         data_matricula=date.today()
     )
 
@@ -41,7 +41,7 @@ def cadastrar_matriculas(form: MatriculaCadastro, db: Session = Depends(get_db))
     return  matricula
 
 
-@router.delete("/api/matriculas", status_code=204, tags=["matriculas"])
+@router.delete("/api/matriculas/{id}", status_code=204, tags=["matriculas"])
 def apagar_matriculas(id: int, db: Session = Depends(get_db)):
     matricula = db.query(MatriculaEntidade).filter(MatriculaEntidade.id == id).first()
     if matricula:
